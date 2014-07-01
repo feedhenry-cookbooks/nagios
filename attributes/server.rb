@@ -196,3 +196,5 @@ default['nagios']['pagerduty']['host_notification_options'] = 'd,r'
 
 # atrributes for setting broker lines
 default['nagios']['brokers'] = {}
+
+default['nagios']['roles_query'] = '*:*'
