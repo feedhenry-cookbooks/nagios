@@ -150,7 +150,25 @@ nodes.each do |n|
 end
 
 nagios_bags         = NagiosDataBags.new
-services            = nagios_bags.get(node['nagios']['services_databag'])
+
+env_roles = ['linux']
+nodes.each do |n|
+  Chef::Log.info "services_roles_filter_query :: #{n['roles']}"
+  env_roles << n['roles']
+end
+
+env_roles = env_roles.flatten.compact.uniq
+Chef::Log.info "services_roles_filter_query :: #{env_roles}"
+
+services_roles_filter_query = env_roles.collect do |role|
+  "hostgroup_name:*#{role}*"
+end.join(' OR ')
+
+Chef::Log.debug "services_roles_filter_query :: #{services_roles_filter_query}"
+
+services            = nagios_bags.get(node['nagios']['services_databag'], services_roles_filter_query)
+
+
 servicegroups       = nagios_bags.get(node['nagios']['servicegroups_databag'])
 templates           = nagios_bags.get(node['nagios']['templates_databag'])
 eventhandlers       = nagios_bags.get(node['nagios']['eventhandlers_databag'])

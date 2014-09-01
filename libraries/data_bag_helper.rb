@@ -11,10 +11,10 @@ class NagiosDataBags
   # Returns an array of data bag items or an empty array
   # Avoids unecessary calls to search by checking against
   # the list of known data bags.
-  def get(bag_name)
+  def get(bag_name, query='*:*')
     results = []
     if @bag_list.include?(bag_name)
-      Chef::Search::Query.new.search(bag_name.to_s, '*:*') { |rows| results << rows }
+      Chef::Search::Query.new.search(bag_name.to_s, query) { |rows| results << rows }
     else
       Chef::Log.info "The #{bag_name} data bag does not exist."
     end
