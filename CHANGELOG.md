@@ -2,19 +2,16 @@ nagios Cookbook CHANGELOG
 =========================
 This file is used to list changes made in each version of the nagios cookbook.
 
-v5.3.3
+v5.3.2
 ------
+### Bug
+- Remove a development file that was accidentally added to the community site release
 ### Feature
 - Add new definitions:
  - nagios_host
  - nagios_service
  - nagios_contact
  - nagios_contactgroup
-
-v5.3.2
-------
-### Bug
-- Remove a development file that was accidentally added to the community site release
 
 v5.3.0
 ------
