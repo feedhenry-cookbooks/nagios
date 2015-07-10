@@ -125,6 +125,10 @@ end
 # Sort by name to provide stable ordering
 nodes.sort! { |a, b| a.name <=> b.name }
 
+node['nagios']['dynamic_hosts'].each do |host|
+  nodes << host  
+end
+
 # maps nodes into nagios hostgroups
 service_hosts = {}
 search(:role, '*:*') do |r|
@@ -166,7 +170,10 @@ end.join(' OR ')
 
 Chef::Log.debug "services_roles_filter_query :: #{services_roles_filter_query}"
 
-services            = nagios_bags.get(node['nagios']['services_databag'], services_roles_filter_query)
+services = nagios_bags.get(node['nagios']['services_databag'], services_roles_filter_query)
+node['nagios']['dynamic_services'].each do |service|
+  services << service
+end
 
 
 servicegroups       = nagios_bags.get(node['nagios']['servicegroups_databag'])
@@ -176,13 +183,27 @@ unmanaged_hosts     = nagios_bags.get(node['nagios']['unmanagedhosts_databag'])
 serviceescalations  = nagios_bags.get(node['nagios']['serviceescalations_databag'])
 hostescalations     = nagios_bags.get(node['nagios']['hostescalations_databag'])
 contacts            = nagios_bags.get(node['nagios']['contacts_databag'])
+node['nagios']['dynamic_contacts'].each do |contact|
+  contacts << contact
+end
+
 contactgroups       = nagios_bags.get(node['nagios']['contactgroups_databag'])
+node['nagios']['dynamic_contactgroups'].each do |contactgroup|
+  contactgroups << contactgroup
+end
+
 servicedependencies = nagios_bags.get(node['nagios']['servicedependencies_databag'])
 timeperiods         = nagios_bags.get(node['nagios']['timeperiods_databag'])
 
 # Add unmanaged host hostgroups to the hostgroups array if they don't already exist
 unmanaged_hosts.each do |host|
   host['hostgroups'].each do |hg|
+    hostgroups << hg unless hostgroups.include?(hg)
+  end
+end
+
+node['nagios']['dynamic_hosts'].each do |host|
+  host['roles'].each do |hg|
     hostgroups << hg unless hostgroups.include?(hg)
   end
 end
