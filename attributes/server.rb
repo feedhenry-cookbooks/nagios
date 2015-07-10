@@ -196,3 +196,8 @@ default['nagios']['pagerduty']['host_notification_options'] = 'd,r'
 
 # atrributes for setting broker lines
 default['nagios']['brokers'] = {}
+
+default['nagios']['dynamic_hosts'] = []
+default['nagios']['dynamic_services'] = []
+default['nagios']['dynamic_contacts'] = []
+default['nagios']['dynamic_contactgroups'] = []
