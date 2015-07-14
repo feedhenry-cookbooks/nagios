@@ -1,4 +1,4 @@
-define :nagios_service, :name => "", :hostgroup_name => "", :id => "", :use_existing_command => "", :service_template => "" do
+define :nagios_service, :name => "", :hostgroup_name => "", :id => "", :use_existing_command => "", :service_template => nil do
   service = {}
 
   service['id']                   = params[:id] || params[:name]
