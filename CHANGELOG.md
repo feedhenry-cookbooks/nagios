@@ -2,7 +2,11 @@ nagios Cookbook CHANGELOG
 =========================
 This file is used to list changes made in each version of the nagios cookbook.
 
-
+v5.3.6
+------
+### New Feature
+- Allowed setting of `service_notifications_enabled` and `host_notifications_enabled` in contacts template
+ 
 v5.3.4
 ------
 ### Bug
