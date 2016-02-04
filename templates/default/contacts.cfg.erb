@@ -43,7 +43,7 @@ define contact {
 define contact {
   name <%= contact['id'] %>
   contact_name <%= contact['id'] %>
-  <% %w{use alias service_notification_period host_notification_period service_notification_options host_notification_options service_notification_commands host_notification_commands email pager register}.each do |conf| %>
+  <% %w{use alias service_notification_period service_notifications_enabled host_notifications_enabled host_notification_period service_notification_options host_notification_options service_notification_commands host_notification_commands email pager register}.each do |conf| %>
   <% unless contact[conf].nil? %>
   <%= conf %> <%= contact[conf] %>
   <% end %>
