@@ -165,7 +165,7 @@ env_roles = env_roles.flatten.compact.uniq
 Chef::Log.info "services_roles_filter_query :: #{env_roles}"
 
 services_roles_filter_query = env_roles.collect do |role|
-  "hostgroup_name:#{role}"
+  "hostgroup_name:*#{role}*"
 end.join(' OR ')
 
 Chef::Log.debug "services_roles_filter_query :: #{services_roles_filter_query}"
