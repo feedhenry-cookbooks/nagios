@@ -17,6 +17,7 @@ Gemfile.lock
 .kitchen/
 .vagrant/
 .vagrant.d/
+.idea/
 bin/
 tmp/
 vendor/
