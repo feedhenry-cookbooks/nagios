@@ -155,6 +155,7 @@ end
 
 nagios_bags = NagiosDataBags.new
 nagios_bags.run_context = run_context
+nagios_bags.node = node
 
 env_roles = ['linux']
 nodes.each do |n|
