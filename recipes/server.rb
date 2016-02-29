@@ -155,9 +155,10 @@ end
 
 nagios_bags         = NagiosDataBags.new
 
-env_roles = ['linux']
+env_roles = []
 nodes.each do |n|
   Chef::Log.info "services_roles_filter_query :: #{n['roles']}"
+  env_roles << n['os']
   env_roles << n['roles']
 end
 
