@@ -30,6 +30,10 @@ define host {
   hostgroups all,<%= (n['roles'] & @hostgroups).sort.join(",") %>,<%= n['os'] %>
   <% end -%>
   <% end -%>
+
+  <% unless ( n['contact_groups'].nil? || n['contact_groups'].length == 0) %>
+  contact_groups <%= n['contact_groups'].sort.join(',') %>
+  <% end %>
 }
 <% end -%>
 <% end -%>
