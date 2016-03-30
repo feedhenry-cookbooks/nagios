@@ -13,7 +13,7 @@ define host {
 <% @nodes.each do |n| -%>
 <% unless n.name == node.name -%>
 define host {
-  use server
+  use <% if n['host_template'].nil? -%>server<% else -%><%= n['host_template'] %> <% end -%>
   address <%= ip_to_monitor(n) %>
   <% host_name = (n[node['nagios']['host_name_attribute']] ? n[node['nagios']['host_name_attribute']] : n.name) -%>
   host_name <%= node['nagios']['server']['normalize_hostname'] ? host_name.downcase : host_name %>
