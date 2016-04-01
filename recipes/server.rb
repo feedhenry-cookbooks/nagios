@@ -131,8 +131,14 @@ end
 
 # maps nodes into nagios hostgroups
 service_hosts = {}
+
+search(:node, "chef_environment:#{node.chef_environment}") do |n|
+  n.automatic.roles.each do | role |
+    hostgroups << role unless hostgroups.include?(role)
+  end
+end
+
 search(:role, '*:*') do |r|
-  hostgroups << r.name
   nodes.select { |n| n['roles'].include?(r.name) if n['roles'] }.each do |n|
     service_hosts[r.name] = n[node['nagios']['host_name_attribute']]
   end
