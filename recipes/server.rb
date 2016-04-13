@@ -139,6 +139,7 @@ search(:node, "chef_environment:#{node.chef_environment}") do |n|
 end
 
 search(:role, '*:*') do |r|
+  hostgroups << r.name if Chef::Config[:solo] and ! hostgroups.include?(r)
   nodes.select { |n| n['roles'].include?(r.name) if n['roles'] }.each do |n|
     service_hosts[r.name] = n[node['nagios']['host_name_attribute']]
   end
