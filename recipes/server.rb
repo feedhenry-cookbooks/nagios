@@ -109,7 +109,9 @@ include_recipe "nagios::server_#{node['nagios']['server']['install_method']}"
 # find nodes to monitor.  Search in all environments if multi_environment_monitoring is enabled
 Chef::Log.info('Beginning search for nodes.  This may take some time depending on your node count')
 nodes = []
-hostgroups = []
+
+#This server_role hostgroup is hardcoded into the hosts.cfg, so needs to be hardcoded in here too.
+hostgroups = [node['nagios']['server_role']]
 
 if node['nagios']['multi_environment_monitoring']
   nodes = search(:node, 'name:*')
@@ -132,8 +134,15 @@ end
 # maps nodes into nagios hostgroups
 service_hosts = {}
 
-search(:node, "chef_environment:#{node.chef_environment}") do |n|
-  n.automatic.roles.each do | role |
+nodes = [node]
+
+unless Chef::Config[:solo]
+  #Get all env nodes, but exclude current node from search and use local node to ensure attributes available on first run
+  nodes = nodes | search(:node, "chef_environment:#{node.chef_environment} AND NOT name:#{node.name}")
+end
+
+nodes.each do |n|
+  n.roles.each do | role |
     hostgroups << role unless hostgroups.include?(role)
   end
 end
