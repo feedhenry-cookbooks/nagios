@@ -168,7 +168,8 @@ nodes.each do |n|
   hostgroups << n['os'] unless hostgroups.include?(n['os']) || n['os'].nil?
 end
 
-nagios_bags         = NagiosDataBags.new
+nagios_bags      = NagiosDataBags.new
+nagios_bags.node = node
 
 env_roles = []
 nodes.each do |n|
