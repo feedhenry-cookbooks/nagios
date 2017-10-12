@@ -128,7 +128,7 @@ end
 nodes.sort! { |a, b| a.name <=> b.name }
 
 node['nagios']['dynamic_hosts'].each do |host|
-  nodes << host  
+  nodes << host
 end
 
 # maps nodes into nagios hostgroups
@@ -199,6 +199,14 @@ unmanaged_hosts     = nagios_bags.get(node['nagios']['unmanagedhosts_databag'])
 serviceescalations  = nagios_bags.get(node['nagios']['serviceescalations_databag'])
 hostescalations     = nagios_bags.get(node['nagios']['hostescalations_databag'])
 contacts            = nagios_bags.get(node['nagios']['contacts_databag'])
+
+unless Chef::Config[:solo]
+  if node['nagios']['monitor_external_management_servers']
+    management_nodes = search(:node, "name:* AND roles:management_server AND NOT name:#{node.name}")
+    hostgroups << node['nagios']['external_management_server']['hostgroup']
+  end
+end
+
 node['nagios']['dynamic_contacts'].each do |contact|
   contacts << contact
 end
@@ -350,6 +358,7 @@ end
 nagios_conf 'hosts' do
   variables(:nodes => nodes,
             :unmanaged_hosts => unmanaged_hosts,
+            :management_nodes => management_nodes,
             :hostgroups => hostgroups)
 end
 
