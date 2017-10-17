@@ -35,9 +35,9 @@ define host {
   contact_groups <%= n['contact_groups'].sort.join(',') %>
   <% end %>
 }
-<% end -%>
-<% end -%>
 
+<% end -%>
+<% end -%>
 <% unless @unmanaged_hosts.nil? -%>
 <% @unmanaged_hosts.each do |n| -%>
   <% unless (n['environment'] && n['environment'] != node.chef_environment ) -%>
@@ -49,5 +49,16 @@ define host {
   notifications_enabled <%= n['notifications'] %>
 }
   <% end %>
+<% end -%>
+<% end -%>
+<% unless @management_nodes.nil? -%>
+<% @management_nodes.each do |n| -%>
+define host {
+  use server
+  address <%= n['ipaddress'] %>
+  host_name <%= n['hostname'] %>
+  hostgroups <%= node['nagios']['external_management_server']['hostgroup'] %>
+}
+
 <% end -%>
 <% end -%>

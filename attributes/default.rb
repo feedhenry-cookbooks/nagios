@@ -21,6 +21,8 @@
 
 # Allow a Nagios server to monitor hosts in multiple environments.  Impacts NRPE configs as well
 default['nagios']['multi_environment_monitoring'] = false
+default['nagios']['monitor_external_management_servers'] = false
+default['nagios']['external_management_server']['hostgroup'] = 'external_management_server'
 
 default['nagios']['user']  = 'nagios'
 default['nagios']['group'] = 'nagios'
